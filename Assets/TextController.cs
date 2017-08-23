@@ -7,7 +7,7 @@ public class TextController : MonoBehaviour {
 
 	public Text text;
 
-	private enum States {cell, mirror, sheets_0, sheets_0_think, lock_0, cell_mirror, sheets_1, lock_1, freedom, suicide};
+	private enum States {cell, mirror, sheets_0, sheets_0_think, lock_0, cell_mirror, sheets_1, lock_1, freedom, suicide, touchbutt, killman};
 	private States myState;
 
 	// Use this for initialization
@@ -41,7 +41,13 @@ public class TextController : MonoBehaviour {
 			state_freedom ();
 		}
 		if (myState == States.suicide) {
-			state_suicide();
+			state_suicide ();
+		}
+		if (myState == States.touchbutt) {
+			state_touchbutt ();
+		}
+		if (myState == States.killman) {
+			state_killman();
 		}
 	}
 
@@ -119,11 +125,17 @@ public class TextController : MonoBehaviour {
 		}
 	}
 
-	void state_freedom() {
+	void state_freedom ()
+	{
 		text.text = "You shank the prison door with a broken shard.. The door gets sliced in half... " +
-				"A man with a familiar face stares at you from the end of the hallway...\n\n" +
-				"Press T to Touch his butt\n" +
-				"Press K to Kill him.";
+		"A man with a familiar face stares at you from the end of the hallway...\n\n" +
+		"Press T to Touch his butt\n" +
+		"Press K to Kill him.";
+		if (Input.GetKeyDown (KeyCode.T)) {
+			myState = States.touchbutt;
+		} else if (Input.GetKeyDown (KeyCode.K)) {
+			myState = States.killman;
+		}
 	}
 
 	void state_suicide ()
@@ -133,6 +145,28 @@ public class TextController : MonoBehaviour {
 		"Press R to come back to life";
 		if (Input.GetKeyDown (KeyCode.R)) {
 			myState = States.cell_mirror;
+		}
+	}
+
+	void state_touchbutt ()
+	{
+		text.text = "You creep up to the man and gently carress his butt. You surprise him as he turns " +
+		"around and knocks you out...\n\n" +
+		"Press Up to Wake up";
+		if (Input.GetKeyDown (KeyCode.UpArrow)) {
+			myState = States.cell;
+		}
+	}
+
+	void state_killman () {
+	text.text = "You chuck the broken shard as hard as you. The shard strucks the man in the left buttcheek. " +
+				"You rush towards him as he collapses to the floor. It is him. The ward. The man who has touched " +
+				"your butt for years. You look into his eyes as his life slowly fades... you gentle touch his butt as he dies.\n\n" + 
+				"You have avenged your butt. You have won.\n\n" +
+				"The End\n\n" + 
+				"Press Enter to knock yourself out\n\n";
+		if (Input.GetKeyDown(KeyCode.Return)) {
+			myState = States.cell;
 		}
 	}
 
